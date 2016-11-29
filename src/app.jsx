@@ -35,17 +35,35 @@ export default class App extends React.Component {
 				showActive: true
 			}
 		}
-
+		this.toggleShowActive = this.toggleShowActive.bind(this);
+		this.toggleTodo = this.toggleTodo.bind(this)
 	}
 
+	toggleShowActive() {
+		this.state.filter.showActive = !this.state.filter.showActive;
+		this.forceUpdate();
+	}
+
+	toggleTodo(todo) {
+		todo.done = !todo.done;
+		this.forceUpdate();
+	}
+
+	getDonePersent(todos) {
+		return (todos.filter(t => t.done).length / todos.length) * 100;
+	}
+
+	getTodos(categories) {
+		return categories.reduce((prev, current) => prev.concat(current.tasks), []);
+	}
 
   render() {
     return (
       <div>
-				<AppHeader showActive={this.state.filter.showActive} title="Todo list"/>
-				<main>
+				<AppHeader showActiveHandler={this.toggleShowActive} showActive={this.state.filter.showActive} title="Todo list" progressValue={this.getDonePersent(this.getTodos(this.state.categories))}/>
+				<main className={styles.mainContent}>
 					<CategoryList categories={this.state.categories}/>
-					<TaskList tasks={this.state.categories.reduce((prev, current) => prev.concat(current.tasks), [])}/>
+					<TaskList tasks={this.getTodos(this.state.categories).filter(t => this.state.filter.showActive ? !t.done : t)} toggleHandler={this.toggleTodo}/>
 				</main>
       </div>
     )

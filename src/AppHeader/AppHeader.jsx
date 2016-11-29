@@ -8,13 +8,13 @@ export let AppHeader = (props) => {
 		<h1>{props.title}</h1>
 		<div className="filter">
 			<label>
-				<input type="checkbox" checked={props.showActive}/>
+				<input type="checkbox" onChange={props.showActiveHandler} checked={props.showActive}/>
 				Show active
 			</label>
 			<input type="search" placeholder="Search your todos"/>
 		</div>
 		<div className={styles.progressBarWrap}>
-			<ProgressBar value={70}/>
+			<ProgressBar value={props.progressValue}/>
 		</div>
 	</header>
 }

@@ -5,7 +5,7 @@ export let TaskList = (props) => {
 
 	let renderTaskItem = (t) => {
 		return <li key={t.id}>
-		<input type="checkbox" checked={t.done}/>
+		<input type="checkbox" checked={t.done} onChange={props.toggleHandler.bind(this, t)}/>
 		{t.title}
 		</li>
 	}
