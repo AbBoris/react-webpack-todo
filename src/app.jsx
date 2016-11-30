@@ -4,6 +4,7 @@ import React from 'react';
 import { AppHeader } from './AppHeader/AppHeader';
 import { TaskList } from './TaskList/TaskList';
 import { CategoryList } from './CategoryList/CategoryList';
+import { AppLayout } from './AppLayout/AppLayout';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -32,7 +33,7 @@ export default class App extends React.Component {
 				}
 			],
 			filter: {
-				showActive: true
+				isActiveOnly: true
 			}
 		}
 		this.toggleShowActive = this.toggleShowActive.bind(this);
@@ -40,8 +41,7 @@ export default class App extends React.Component {
 	}
 
 	toggleShowActive() {
-		this.state.filter.showActive = !this.state.filter.showActive;
-		this.forceUpdate();
+		this.setState({filter: {isActiveOnly: !this.state.filter.isActiveOnly}});
 	}
 
 	toggleTodo(todo) {
@@ -59,13 +59,11 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-				<AppHeader showActiveHandler={this.toggleShowActive} showActive={this.state.filter.showActive} title="Todo list" progressValue={this.getDonePersent(this.getTodos(this.state.categories))}/>
-				<main className={styles.mainContent}>
-					<CategoryList categories={this.state.categories}/>
-					<TaskList tasks={this.getTodos(this.state.categories).filter(t => this.state.filter.showActive ? !t.done : t)} toggleHandler={this.toggleTodo}/>
-				</main>
-      </div>
+      <AppLayout
+        header={<AppHeader showActiveHandler={this.toggleShowActive} showActive={this.state.filter.isActiveOnly} title="Todo list" progressValue={this.getDonePersent(this.getTodos(this.state.categories))} />}
+        left={<CategoryList categories={this.state.categories}/>}
+        right={<TaskList tasks={this.getTodos(this.state.categories).filter(t => this.state.filter.isActiveOnly ? !t.done : t)} toggleHandler={this.toggleTodo}/>}
+      />
     )
   }
 }

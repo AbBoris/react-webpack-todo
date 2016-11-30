@@ -3,7 +3,7 @@ import styles from './AppHeader.scss';
 
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 
-export let AppHeader = (props) => {
+export let AppHeader = props => {
 	return <header className={styles.appHeader}>
 		<h1>{props.title}</h1>
 		<div className="filter">

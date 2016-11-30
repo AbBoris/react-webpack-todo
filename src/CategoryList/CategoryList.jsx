@@ -1,14 +1,14 @@
 import React from 'react';
 import styles from './CategoryList.scss';
 
-export let CategoryList = (props) => {
+export let CategoryList = props => {
 	let renderCategoryItem = (c) => {
-		return <li key={c.id}>
+		return <li className={styles.categoryListItem} key={c.id}>
 			{c.title}
 		</li>
 	}
 
-	return <ul>
+	return <ul className={styles.categoryList}>
 	{props.categories.map(c => renderCategoryItem(c))}
 	</ul>
 }
