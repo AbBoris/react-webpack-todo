@@ -10,6 +10,7 @@ export default class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+      activeCategoryId: undefined,
 			categories: [
 				{
 					id: 1,
@@ -33,11 +34,15 @@ export default class App extends React.Component {
 				}
 			],
 			filter: {
-				isActiveOnly: true
+				isActiveOnly: true,
+        searchFocused: false
 			}
 		}
 		this.toggleShowActive = this.toggleShowActive.bind(this);
-		this.toggleTodo = this.toggleTodo.bind(this)
+		this.toggleTodo = this.toggleTodo.bind(this);
+    this.searchBlurHandler = this.searchBlurHandler.bind(this);
+    this.searchFocusHandler = this.searchFocusHandler.bind(this);
+    this.categoryClickHandler = this.categoryClickHandler.bind(this);
 	}
 
 	toggleShowActive() {
@@ -57,12 +62,35 @@ export default class App extends React.Component {
 		return categories.reduce((prev, current) => prev.concat(current.tasks), []);
 	}
 
+  searchFocusHandler() {
+    this.state.filter.searchFocused = true;
+    this.forceUpdate();
+  }
+
+  searchBlurHandler() {
+    this.state.filter.searchFocused = false;
+    this.forceUpdate();
+  }
+
+  categoryClickHandler(c) {
+    this.setState({activeCategoryId: c.id});
+  }
+
   render() {
     return (
       <AppLayout
-        header={<AppHeader showActiveHandler={this.toggleShowActive} showActive={this.state.filter.isActiveOnly} title="Todo list" progressValue={this.getDonePersent(this.getTodos(this.state.categories))} />}
-        left={<CategoryList categories={this.state.categories}/>}
-        right={<TaskList tasks={this.getTodos(this.state.categories).filter(t => this.state.filter.isActiveOnly ? !t.done : t)} toggleHandler={this.toggleTodo}/>}
+        header={
+        <AppHeader
+          searchFocused={this.state.filter.searchFocused}
+          searchFocusHandler={this.searchFocusHandler}
+          searchBlurHandler={this.searchBlurHandler}
+          showActiveHandler={this.toggleShowActive}
+          showActive={this.state.filter.isActiveOnly}
+          title="Todo list"
+          progressValue={this.getDonePersent(this.getTodos(this.state.categories))}
+        />}
+        left={<CategoryList categories={this.state.categories} categoryClickHandler={this.categoryClickHandler}/>}
+        right={<TaskList tasks={this.getTodos(this.state.categories.filter(c => this.state.activeCategoryId ? c.id === this.state.activeCategoryId : c)).filter(t => this.state.filter.isActiveOnly ? !t.done : t)} toggleHandler={this.toggleTodo}/>}
       />
     )
   }

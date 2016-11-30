@@ -1,12 +1,24 @@
+// @import '../fonts/font';
+
 .appHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     background-color: #fff;
-    font-family: 'Raleway-Regular';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 400;
+
+    h1 {
+        font-weight: 100;
+    }
 }
 
 .progressBarWrap {
     flex: 1 0 100%;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
 }

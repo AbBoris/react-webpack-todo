@@ -1,0 +1,42 @@
+.search {
+    background-color: rgba(92, 112, 128, 0.2);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: 40px;
+    margin-left: 20px;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.searchField {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-right: none;
+  outline: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  transition: background-color .2s;
+
+  &__active {
+    background-color: #fff;
+    border: 1px solid rgba(92, 112, 128, 0.2);
+    border-right: none;
+  }
+}
+
+.searchIconButton {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  box-sizing: border-box;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: background-color .2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(92, 112, 128, 0.2);
+  }
+}
