@@ -14,3 +14,9 @@
     max-width: 1080px;
     margin: 0 auto;
 }
+
+.categoriesColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
