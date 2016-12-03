@@ -5,12 +5,17 @@ import { AppHeader } from './AppHeader/AppHeader';
 import { TaskList } from './TaskList/TaskList';
 import { CategoryList } from './CategoryList/CategoryList';
 import { AppLayout } from './AppLayout/AppLayout';
+// import { Input } from './Input/Input';
+import { Input } from './components/Input/Input';
+import { Button } from './Button/Button';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeCategoryId: undefined,
+      activeCategoryId: 0,
+      newCategoryTitle: '',
+      newSubtaskTitle: '',
       categories: [
         {
           id: 1,
@@ -47,6 +52,10 @@ export default class App extends React.Component {
     this.searchValueHandler = this.searchValueHandler.bind(this);
   }
 
+  render() {
+    return <Input/>
+  }
+
   toggleShowActive() {
     this.state.filter.isActiveOnly = !this.state.filter.isActiveOnly;
     this.forceUpdate();
@@ -76,7 +85,7 @@ export default class App extends React.Component {
   }
 
   categoryClickHandler(c) {
-    this.state.filter.activeCategoryId = c.id;
+    this.state.activeCategoryId = c.id;
     this.forceUpdate();
   }
 
@@ -91,9 +100,32 @@ export default class App extends React.Component {
     return tasks.filter(t => value ? t.title.match(reg): t);
   }
 
-  render() {
-    return (
-      <AppLayout
+  addNewCategory() {
+    this.state.categories.push({id: this.state.categories.length + 1, title: this.state.newCategoryTitle, tasks: []});
+    this.state.newCategoryTitle = '';
+    this.forceUpdate();
+  }
+
+  newCategoryTitleHandler(se) {
+    this.state.newCategoryTitle = se.target.value;
+    this.forceUpdate();
+  }
+
+  addNewSubtask() {
+    let tasks = this.state.categories.find(c => c.id === this.state.activeCategoryId).tasks;
+    tasks.push({id: tasks.length + 1, title: this.state.newSubtaskTitle, done: false});
+    this.forceUpdate();
+  }
+
+  newSubtaskTitleHandler(se) {
+    this.state.newSubtaskTitle = se.target.value;
+    this.forceUpdate();
+  }
+
+
+
+  renderApp() {
+    return <AppLayout
         header={
         <AppHeader
           searchFocused={this.state.filter.searchFocused}
@@ -108,6 +140,10 @@ export default class App extends React.Component {
         />}
         left={
         <div className={styles.categoriesColumn}>
+          <div className={styles.addNewTask}>
+            <Input onChange={this.newCategoryTitleHandler.bind(this)} value={this.state.newCategoryTitle} placeholder="Type new category here"/>
+            <Button disabled={this.state.newCategoryTitle === '' ? true : false} onClick={this.addNewCategory.bind(this)} text="Add new caterogy"/>
+          </div>
           <CategoryList
             categories={this.state.categories}
             activeCategoryId={this.state.activeCategoryId}
@@ -115,11 +151,16 @@ export default class App extends React.Component {
           />
         </div>}
         right={
-        <TaskList
-          tasks={this.filterTasksBySearch(this.getTodos(this.state.categories.filter(c => this.state.activeCategoryId ? c.id === this.state.activeCategoryId : c)).filter(t => this.state.filter.isActiveOnly ? !t.done : t), this.state.filter.searchValue)}
-          toggleHandler={this.toggleTodo}
-        />}
+        <div className={`${styles.tasksColumn} ${this.state.activeCategoryId === 0 && styles.marginTop}`}>
+          {this.state.activeCategoryId !==0 && <div className={styles.addNewTask}>
+            <Input onChange={this.newSubtaskTitleHandler.bind(this)} value={this.state.newSubtaskTitle} placeholder="Type new task here"/>
+            <Button onClick={this.addNewSubtask.bind(this)} text="Add new subtask"/>
+          </div>}
+          <TaskList
+            tasks={this.filterTasksBySearch(this.getTodos(this.state.categories.filter(c => this.state.activeCategoryId!==0 ? c.id === this.state.activeCategoryId : c)).filter(t => this.state.filter.isActiveOnly ? !t.done : t), this.state.filter.searchValue)}
+            toggleHandler={this.toggleTodo}
+          />
+        </div>}
       />
-    )
   }
 }
