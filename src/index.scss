@@ -1,44 +1,6 @@
-.redBg {
-    background-color: red;
-    border-radius: 5px;
-    color: white;
-    padding: 5px;
-}
-
-.mainContent {
-    display: flex;
-    justify-content: space-between;
-}
-
-.appWrap {
-    max-width: 1080px;
-    margin: 0 auto;
-}
-
-.categoriesColumn {
-  margin: 10px 0;
+.wrap {
   display: flex;
   flex-direction: column;
-}
-
-.tasksColumn {
-  margin: 10px 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.categoriesColumn {
-    align-items: flex-start;
-}
-
-.tasksColumn {
-    align-items: flex-end;
-}
-
-.addNewTask {
-  display: flex;
-}
-
-.marginTop {
-  margin-top: 50px;
+  max-width: 1080px;
+  margin: 0 auto;
 }
