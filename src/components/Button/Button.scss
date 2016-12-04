@@ -1,0 +1,28 @@
+$buttonColor: #2185d0;
+
+.button {
+  background-color: $buttonColor;
+  border-radius: .25em;
+  border: none;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.875em;
+  line-height: 1.7;
+  outline: none;
+  padding: .3em .875em;
+  transition: all .2s;
+
+  &:focus,
+  &:hover {
+    background-color: darken($buttonColor, 8%);
+  }
+
+  &:active {
+    background-color: darken($buttonColor, 16%);
+  }
+
+  &:disabled {
+    background-color: lighten($buttonColor, 20%);
+    cursor: not-allowed;
+  }
+}
