@@ -5,6 +5,7 @@ export let Input = props => {
   return <input
   onChange={props.onChange}
   value={props.value}
+  disabled={props.disabled}
   placeholder={props.placeholder}
   type="text"
   className={styles.input}
